@@ -36,6 +36,7 @@ rules:
     - pattern: esc_sql(...)
     - pattern: sanitize_key(...)
     - pattern: intval(...)
+    - pattern: absint(...)
   pattern-sources:
   - patterns:
     - pattern-either:
