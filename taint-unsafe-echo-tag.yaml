@@ -70,4 +70,6 @@ rules:
                   esc_js(...)
               - pattern:
                   intval(...)
+              - pattern:
+                  json_encode(...)
 
