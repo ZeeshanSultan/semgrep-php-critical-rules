@@ -74,4 +74,6 @@ rules:
                   json_encode(...)
               - pattern: |
                   absint(...)
+              - pattern: |
+                  wp_json_encode(...)
 
