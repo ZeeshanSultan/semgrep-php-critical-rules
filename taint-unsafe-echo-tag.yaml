@@ -76,4 +76,22 @@ rules:
                   absint(...)
               - pattern: |
                   wp_json_encode(...)
+              - pattern: |
+                  (int)$_GET[...]
+              - pattern: |
+                  (int)$_POST[...]
+              - pattern: |
+                  (int)$_REQUEST[...]
+              - pattern: |
+                  (float)$_GET[...]
+              - pattern: |
+                  (float)$_POST[...]
+              - pattern: |
+                  (float)$_REQUEST[...]
+              - pattern: |
+                  (bool)$_GET[...]
+              - pattern: |
+                  (bool)$_POST[...]
+              - pattern: |
+                  (bool)$_REQUEST[...]
 
