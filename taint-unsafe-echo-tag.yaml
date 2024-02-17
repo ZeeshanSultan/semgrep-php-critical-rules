@@ -1,0 +1,73 @@
+rules:
+  - id: taint-unsafe-echo-tag
+    message: Found direct access to a PHP variable wihout HTML escaping inside an
+      inline PHP statement setting data from `$_REQUEST[...]`. When untrusted
+      input can be used to tamper with a web page rendering, it can lead to a
+      Cross-site scripting (XSS) vulnerability. XSS vulnerabilities occur when
+      untrusted input executes malicious JavaScript code, leading to issues such
+      as account compromise and sensitive information leakage. To prevent this
+      vulnerability, validate the user input, perform contextual output encoding
+      or sanitize the input. In PHP you can encode or sanitize user input with
+      `htmlspecialchars` or use automatic context-aware escaping with a template
+      engine such as Latte.
+    severity: WARNING
+    metadata:
+      likelihood: HIGH
+      impact: MEDIUM
+      confidence: MEDIUM
+      category: security
+      subcategory:
+        - vuln
+      cwe:
+        - "CWE-79: Improper Neutralization of Input During Web Page Generation
+          ('Cross-site Scripting')"
+      cwe2021-top25: true
+      cwe2022-top25: true
+      functional-categories:
+        - web::source::http-params::lang
+        - web::source::http-body::lang
+        - web::sink::html-webpage::lang
+      owasp:
+        - A07:2017 - Cross-Site Scripting (XSS)
+        - A03:2021 - Injection
+      references:
+        - https://www.php.net/manual/en/language.basic-syntax.phptags.php
+      technology:
+        - php
+      license: Copyright 2023 Semgrep, Inc.
+      vulnerability_class:
+        - Cross-Site-Scripting (XSS)
+    languages:
+      - php
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern: |
+              $REQ[...]
+          - metavariable-regex:
+              metavariable: $REQ
+              regex: \$_(REQUEST|GET|POST)
+    pattern-sinks:
+      - patterns:
+          - pattern: |
+              echo(...);
+    pattern-sanitizers:
+      - patterns:
+          - pattern-either:
+              - pattern: |
+                  htmlentities(...);
+              - pattern: |
+                  htmlspecialchars(...);
+              - pattern: |
+                  esc_html(...)
+              - pattern: |
+                  esc_attr(...)
+              - pattern:
+                  sanitize_text_field(...)
+              - pattern:
+                  esc_textarea(...)
+              - pattern:
+                  esc_js(...)
+              - pattern:
+                  intval(...)
+

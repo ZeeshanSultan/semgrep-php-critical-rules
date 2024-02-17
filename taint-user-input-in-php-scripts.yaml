@@ -1,0 +1,65 @@
+rules:
+  - id: tainted-user-input-in-php-script
+    message: Untrusted input could be used to tamper with a web page rendering,
+      which can lead to a Cross-site scripting (XSS) vulnerability. XSS
+      vulnerabilities occur when untrusted input executes malicious JavaScript
+      code, leading to issues such as account compromise and sensitive
+      information leakage. To prevent this vulnerability, validate the user
+      input, perform contextual output encoding or sanitize the input. In PHP
+      you can encode or sanitize user input with `htmlspecialchars` or use
+      automatic context-aware escaping with a template engine such as Latte.
+    severity: ERROR
+    metadata:
+      likelihood: HIGH
+      impact: MEDIUM
+      confidence: MEDIUM
+      category: security
+      subcategory:
+        - vuln
+      cwe:
+        - "CWE-79: Improper Neutralization of Input During Web Page Generation
+          ('Cross-site Scripting')"
+      cwe2021-top25: true
+      cwe2022-top25: true
+      functional-categories:
+        - web::source::cookie::lang
+        - web::source::http-params::lang
+        - web::source::http-body::lang
+        - web::source::url-path-params::lang
+        - web::sink::html-webpage::lang
+      owasp:
+        - A07:2017 - Cross-Site Scripting (XSS)
+        - A03:2021 - Injection
+      references:
+        - https://brightsec.com/blog/cross-site-scripting-php/
+        - https://github.com/tolgadevsec/PHP-Security-Cheatsheet#cross-site-scripting
+      technology:
+        - php
+        - generic
+      license: Copyright 2023 Semgrep, Inc.
+      vulnerability_class:
+        - Cross-Site-Scripting (XSS)
+    languages:
+      - php
+    mode: taint
+    pattern-sources:
+      - pattern-either:
+          - pattern: $_GET
+          - pattern: $_REQUEST
+          - pattern: $_POST
+          - pattern: $_COOKIE
+          - pattern: $_FILES
+    pattern-sinks:
+      - patterns:
+          - focus-metavariable: $PHP
+          - pattern: |
+              $TAG.$PHP.$ENDTAG
+          - metavariable-pattern:
+              metavariable: $TAG
+              pattern-regex: ('|")<[a-zA-Z0-9]*>.*('|")
+    pattern-sanitizers:
+      - pattern-either:
+          - pattern: htmlspecialchars(...)
+          - pattern: esc_html(...)
+          - pattern: esc_attr(...)
+          - pattern: sanitize_text_field(...)

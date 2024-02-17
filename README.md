@@ -1,0 +1,1 @@
+"# semgrep-php-critical-rules" 
