@@ -64,6 +64,8 @@ rules:
                   esc_attr(...)
               - pattern: |
                   sanitize_text_field(...)
+              - pattern:
+                  sanitize_textarea_field(...)
               - pattern: |
                   esc_textarea(...)
               - pattern: |
