@@ -62,16 +62,16 @@ rules:
                   esc_html(...)
               - pattern: |
                   esc_attr(...)
-              - pattern:
+              - pattern: |
                   sanitize_text_field(...)
-              - pattern:
+              - pattern: |
                   esc_textarea(...)
-              - pattern:
+              - pattern: |
                   esc_js(...)
-              - pattern:
+              - pattern: |
                   intval(...)
-              - pattern:
+              - pattern: |
                   json_encode(...)
-              - pattern:
+              - pattern: |
                   absint(...)
 
