@@ -35,6 +35,7 @@ rules:
     - pattern: $wpdb->prepare(...)
     - pattern: esc_sql(...)
     - pattern: sanitize_key(...)
+    - pattern: intval(...)
   pattern-sources:
   - patterns:
     - pattern-either:
